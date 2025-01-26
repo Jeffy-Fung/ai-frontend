@@ -1,4 +1,5 @@
-import Image from 'next/image';
+import Image from "next/image";
+import Link from "next/link";
 
 export default function SignIn() {
   return (
@@ -154,8 +155,8 @@ export default function SignIn() {
                 </div>
 
                 <div className="mt-6 grid grid-cols-2 gap-4">
-                  <a
-                    href="#"
+                  <Link
+                    href="/user-profile"
                     className="flex w-full items-center justify-center gap-3 rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus-visible:ring-transparent"
                   >
                     <svg
@@ -181,7 +182,7 @@ export default function SignIn() {
                       />
                     </svg>
                     <span className="text-sm/6 font-semibold">Google</span>
-                  </a>
+                  </Link>
 
                   <a
                     href="#"
