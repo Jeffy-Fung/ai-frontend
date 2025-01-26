@@ -1,6 +1,14 @@
+"use client";
+
 import { PaperClipIcon } from "@heroicons/react/24/solid";
+import { useProfile } from "../nodejs-backend/users/queries/useProfile";
 
 export default function UserProfile() {
+  const { data, isLoading, error } = useProfile();
+
+  if (isLoading) return <div>Loading...</div>;
+  if (error) return <div>Error: {error.message}</div>;
+
   return (
     <div className="overflow-hidden bg-white shadow sm:rounded-lg">
       <div className="px-4 py-6 sm:px-6">
