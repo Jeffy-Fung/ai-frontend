@@ -1,6 +1,6 @@
 import { ApiError } from "./ApiError";
 
-export const apiBaseUrl = `${process.env.NEXT_PUBLIC_PREFACE_API_URL}`;
+export const apiBaseUrl = `${process.env.NEXT_PUBLIC_NODEJS_BACKEND_API_URL}`;
 
 export async function get(path: string, params: Record<string, string | number | boolean | (string | number | boolean)[]> | null) {
   const response = await callFetch(`${path}${getParams(params)}`, {
