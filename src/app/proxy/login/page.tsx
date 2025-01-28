@@ -1,24 +1,23 @@
 "use client";
 
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { useEffect } from "react";
 
-export default function ProxyLogin({ jwtToken }: { jwtToken: string }) {
+export default function ProxyLogin() {
   const router = useRouter();
+  const searchParams = useSearchParams();
+  const jwtToken = searchParams.get("jwtToken");
 
   useEffect(() => {
-    localStorage.setItem("jwtToken", jwtToken);
-    router.push("/user-profile");
+    if (jwtToken) {
+      localStorage.setItem("jwtToken", jwtToken);
+      router.push("/user-profile");
+    }
   }, [jwtToken, router]);
 
+  if (!jwtToken) {
+    return <div>ProxyLogin</div>;
+  }
+
   return <div>ProxyLogin</div>;
-}
-
-export async function getServerSideProps(context: any) {
-  const authHeader = context.req.headers.authorization;
-  const jwtToken = authHeader ? authHeader.split(' ')[1] : null;
-
-  return {
-    props: { jwtToken: jwtToken },
-  };
 }
