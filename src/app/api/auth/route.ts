@@ -1,22 +1,13 @@
 import { NextResponse } from "next/server";
 import jwt from 'jsonwebtoken';
 
-// To handle a GET request to /api
 export async function GET(request: Request) {
-  const authHeader = request.headers.get("Authorization");
-
-  if (!authHeader) {
-    return NextResponse.json({ error: { message: "Authorization header required." } }, { status: 401 });
-  }
-
-  if (!authHeader?.startsWith('Bearer ')) {
-    return NextResponse.json({ error: { message: "Bearer token required." } }, { status: 401 });
-  }
-
-  const jwtToken = authHeader.split(' ')[1]; // Get the token part after "Bearer "
+  // TODO: is there a better way to pass the jwtToken?
+  const url = new URL(request.url);
+  const jwtToken = url.searchParams.get('jwtToken');
 
   try {
-    jwt.verify(jwtToken, process.env.JWT_SECRET_KEY);
+    jwt.verify(jwtToken, process.env.JWT_SECRET);
     return NextResponse.redirect(new URL("/proxy/login", request.url), {
         headers: { 'Authorization': `Bearer ${jwtToken}` }
     });
