@@ -1,4 +1,5 @@
 import { ApiError } from "./ApiError";
+import { isLoggedIn, getAuthToken } from "../auth";
 
 export const apiBaseUrl = `${process.env.NEXT_PUBLIC_NODEJS_BACKEND_API_URL}`;
 
@@ -64,9 +65,9 @@ function callFetch(resource: string, { ignoreAuthorization = false, ...options }
     "Preface-Client": "cp-web",
   };
 
-  // if (!ignoreAuthorization && isLoggedIn()) {
-  //   headers["Authorization"] = `Bearer ${getAuthToken()}`;
-  // }
+  if (!ignoreAuthorization && isLoggedIn()) {
+    headers["Authorization"] = `Bearer ${getAuthToken()}`;
+  }
 
   return fetch(`${apiBaseUrl}/${resource}`, {
     ...options,

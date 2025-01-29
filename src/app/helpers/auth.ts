@@ -1,5 +1,9 @@
 import { getItem } from "./storage";
 
 export function isLoggedIn() {
-  return getItem("jwtToken") !== null;
+  return getAuthToken() !== null;
+}
+
+export function getAuthToken() {
+  return getItem("jwtToken");
 }
