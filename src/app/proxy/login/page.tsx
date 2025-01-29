@@ -1,5 +1,6 @@
 "use client";
 
+import { saveItem } from "@/app/helpers/storage";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useEffect } from "react";
 
@@ -10,7 +11,7 @@ export default function ProxyLogin() {
 
   useEffect(() => {
     if (jwtToken) {
-      localStorage.setItem("jwtToken", jwtToken);
+      saveItem("jwtToken", jwtToken);
       router.push("/user-profile");
     }
   }, [jwtToken, router]);
