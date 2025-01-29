@@ -4,7 +4,7 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import Layout from "@/components/layout";
-import { isLogin } from "./helpers/auth";
+import { isLoggedIn } from "./helpers/auth";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 
 const geistSans = Geist({
@@ -33,7 +33,7 @@ export default function RootLayout({
     <QueryClientProvider client={queryClient}>
       <html lang="en">
         <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
-          {isLogin ? <Layout>{children}</Layout> : <div>{children}</div>}
+          {isLoggedIn() ? <Layout>{children}</Layout> : <div>{children}</div>}
         </body>
       </html>
     </QueryClientProvider>

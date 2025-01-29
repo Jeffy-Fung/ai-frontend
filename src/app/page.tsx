@@ -2,13 +2,13 @@
 
 import { useEffect } from "react";
 import { useRouter } from "next/navigation";
-import { isLogin } from "@/app/helpers/auth";
+import { isLoggedIn } from "@/app/helpers/auth";
 
 export default function Home() {
   const router = useRouter();
 
   useEffect(() => {
-    if (isLogin) {
+    if (isLoggedIn()) {
       router.replace("/user-profile");
     } else {
       router.replace("/sign-in");
@@ -17,4 +17,3 @@ export default function Home() {
 
   return <div>Home</div>;
 }
-
