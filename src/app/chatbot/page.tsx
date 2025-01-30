@@ -10,12 +10,25 @@ export default function Chatbot() {
 
   return (
     <>
-      <div className="">
-        <h1>Deep Chat</h1>
+      <div className="w-full h-full">
         <DeepChat
           demo={true}
-          style={{ borderRadius: "10px" }}
-          textInput={{ placeholder: { text: "Welcome to the demo!" } }}
+          style={{ 
+            borderRadius: "10px", 
+            width: "800px", 
+            height: "700px", 
+            paddingTop: "20px", 
+            paddingBottom: "20px"
+          }}
+          textInput={{ 
+            placeholder: { text: "Welcome to the demo!" },
+            styles: {
+              container: {
+                borderRadius: "10px",
+                padding: "5px"
+              }
+            }
+          }}
           history={history}
         />
       </div>
