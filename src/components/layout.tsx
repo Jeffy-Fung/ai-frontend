@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useContext, useState } from "react";
 import {
   Dialog,
   DialogBackdrop,
@@ -27,6 +27,7 @@ import {
 import Image from "next/image";
 import { isLoggedIn } from "@/app/helpers/auth";
 import { usePathname } from "next/navigation";
+import ChatSessionContext from "@/store/chatSessionProvider";
 
 const userNavigation = [
   { name: "Sign out", href: "#" },
@@ -36,12 +37,12 @@ function classNames(...classes: string[]): string {
   return classes.filter(Boolean).join(" ");
 }
 
-function getSubItems(pathname: string) {
+function getSubItems(pathname: string, sessionDrawerOpen: boolean, setSessionDrawerOpen: (open: boolean) => void) {
   if (pathname !== "/chatbot") return [];
 
   return [
-    { name: "Sessions", action: "#", initial: "S", current: false },
-    { name: "Nothing", action: "#", initial: "N", current: false },
+    { name: "Sessions", action: () => {setSessionDrawerOpen(!sessionDrawerOpen)}, initial: "S", current: false },
+    { name: "Nothing", action: () => {}, initial: "N", current: false },
   ];
 }
 
@@ -52,8 +53,9 @@ export default function Layout({ children }: { children: React.ReactNode }) {
     { name: "User Profile", href: "/user-profile", icon: UsersIcon, current: pathname === "/user-profile" },
     { name: "Chatbot", href: "/chatbot", icon: ChatBubbleLeftIcon, current: pathname === "/chatbot" },
   ];
+  const { sessionDrawerOpen, setSessionDrawerOpen } = useContext(ChatSessionContext);
 
-  const otherItems = getSubItems(pathname);
+  const otherItems = getSubItems(pathname, sessionDrawerOpen, setSessionDrawerOpen);
 
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
@@ -140,7 +142,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
                           {otherItems.map((item) => (
                             <li key={item.name}>
                               <button
-                                onClick={() => item.action}
+                                onClick={item.action}
                                 className={classNames(
                                   item.current
                                     ? "bg-gray-50 text-indigo-600"
@@ -236,7 +238,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
                       {otherItems.map((item) => (
                         <li key={item.name}>
                           <button
-                            onClick={() => item.action}
+                            onClick={item.action}
                             className={classNames(
                               item.current
                                 ? "bg-gray-50 text-indigo-600"

@@ -6,6 +6,7 @@ import "./globals.css";
 import Layout from "@/components/layout";
 import { isLoggedIn } from "./helpers/auth";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import ChatSessionProvider from "@/store/chat-session-context";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -33,7 +34,9 @@ export default function RootLayout({
     <QueryClientProvider client={queryClient}>
       <html lang="en">
         <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
-          {isLoggedIn() ? <Layout>{children}</Layout> : <div>{children}</div>}
+          <ChatSessionProvider>
+            {isLoggedIn() ? <Layout>{children}</Layout> : <div>{children}</div>}
+          </ChatSessionProvider>
         </body>
       </html>
     </QueryClientProvider>
