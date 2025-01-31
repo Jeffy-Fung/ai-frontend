@@ -14,27 +14,22 @@ import {
 import {
   Bars3Icon,
   BellIcon,
-  CalendarIcon,
-  ChartPieIcon,
   Cog6ToothIcon,
-  DocumentDuplicateIcon,
-  FolderIcon,
-  HomeIcon,
+  ChatBubbleLeftIcon,
   UsersIcon,
   XMarkIcon,
+  UserIcon,
 } from "@heroicons/react/24/outline";
 import {
   ChevronDownIcon,
   MagnifyingGlassIcon,
 } from "@heroicons/react/20/solid";
+import Image from "next/image";
+import { isLoggedIn } from "@/app/helpers/auth";
 
 const navigation = [
-  { name: "Dashboard", href: "#", icon: HomeIcon, current: true },
-  { name: "Team", href: "#", icon: UsersIcon, current: false },
-  { name: "Projects", href: "#", icon: FolderIcon, current: false },
-  { name: "Calendar", href: "#", icon: CalendarIcon, current: false },
-  { name: "Documents", href: "#", icon: DocumentDuplicateIcon, current: false },
-  { name: "Reports", href: "#", icon: ChartPieIcon, current: false },
+  { name: "User Profile", href: "/user-profile", icon: UsersIcon, current: true },
+  { name: "Chatbot", href: "/chatbot", icon: ChatBubbleLeftIcon, current: false },
 ];
 const teams = [
   { id: 1, name: "Heroicons", href: "#", initial: "H", current: false },
@@ -42,7 +37,6 @@ const teams = [
   { id: 3, name: "Workcation", href: "#", initial: "W", current: false },
 ];
 const userNavigation = [
-  { name: "Your profile", href: "#" },
   { name: "Sign out", href: "#" },
 ];
 
@@ -55,14 +49,6 @@ export default function Layout({ children }: { children: React.ReactNode }) {
 
   return (
     <>
-      {/*
-        This example requires updating your template:
-
-        ```
-        <html class="h-full bg-white">
-        <body class="h-full">
-        ```
-      */}
       <div>
         <Dialog
           open={sidebarOpen}
@@ -97,10 +83,12 @@ export default function Layout({ children }: { children: React.ReactNode }) {
               {/* Sidebar component, swap this element with another sidebar if you like */}
               <div className="flex grow flex-col gap-y-5 overflow-y-auto bg-white px-6 pb-4">
                 <div className="flex h-16 shrink-0 items-center">
-                  <img
+                  <Image
                     alt="Your Company"
                     src="https://tailwindui.com/plus/img/logos/mark.svg?color=indigo&shade=600"
                     className="h-8 w-auto"
+                    width={100}
+                    height={100}
                   />
                 </div>
                 <nav className="flex flex-1 flex-col">
@@ -189,10 +177,12 @@ export default function Layout({ children }: { children: React.ReactNode }) {
           {/* Sidebar component, swap this element with another sidebar if you like */}
           <div className="flex grow flex-col gap-y-5 overflow-y-auto border-r border-gray-200 bg-white px-6 pb-4">
             <div className="flex h-16 shrink-0 items-center">
-              <img
+              <Image
                 alt="Your Company"
                 src="https://tailwindui.com/plus/img/logos/mark.svg?color=indigo&shade=600"
                 className="h-8 w-auto"
+                width={100}
+                height={100}
               />
             </div>
             <nav className="flex flex-1 flex-col">
@@ -324,17 +314,13 @@ export default function Layout({ children }: { children: React.ReactNode }) {
                 <Menu as="div" className="relative">
                   <MenuButton className="-m-1.5 flex items-center p-1.5">
                     <span className="sr-only">Open user menu</span>
-                    <img
-                      alt=""
-                      src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
-                      className="size-8 rounded-full bg-gray-50"
-                    />
+                    <UserIcon className="size-5 rounded-full bg-gray-50" />
                     <span className="hidden lg:flex lg:items-center">
                       <span
                         aria-hidden="true"
                         className="ml-4 text-sm/6 font-semibold text-gray-900"
                       >
-                        Tom Cook
+                        {isLoggedIn() ? "User" : "Guest"}
                       </span>
                       <ChevronDownIcon
                         aria-hidden="true"
