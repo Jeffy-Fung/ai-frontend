@@ -1,6 +1,7 @@
 "use client";
 
 import { DeepChat } from "deep-chat-react";
+import SessionDrawer from "@/components/drawers";
 
 export default function Chatbot() {
   const history = [
@@ -31,6 +32,7 @@ export default function Chatbot() {
           history={history}
         />
       </div>
+      <SessionDrawer />
     </>
   );
 }
