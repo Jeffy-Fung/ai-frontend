@@ -26,11 +26,7 @@ import {
 } from "@heroicons/react/20/solid";
 import Image from "next/image";
 import { isLoggedIn } from "@/app/helpers/auth";
-
-const navigation = [
-  { name: "User Profile", href: "/user-profile", icon: UsersIcon, current: true },
-  { name: "Chatbot", href: "/chatbot", icon: ChatBubbleLeftIcon, current: false },
-];
+import { usePathname } from "next/navigation";
 const teams = [
   { id: 1, name: "Heroicons", href: "#", initial: "H", current: false },
   { id: 2, name: "Tailwind Labs", href: "#", initial: "T", current: false },
@@ -45,6 +41,13 @@ function classNames(...classes: string[]): string {
 }
 
 export default function Layout({ children }: { children: React.ReactNode }) {
+  const pathname = usePathname();
+
+  const navigation = [
+    { name: "User Profile", href: "/user-profile", icon: UsersIcon, current: pathname === "/user-profile" },
+    { name: "Chatbot", href: "/chatbot", icon: ChatBubbleLeftIcon, current: pathname === "/chatbot" },
+  ];
+
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
   return (
