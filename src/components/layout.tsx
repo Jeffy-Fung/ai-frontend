@@ -27,17 +27,22 @@ import {
 import Image from "next/image";
 import { isLoggedIn } from "@/app/helpers/auth";
 import { usePathname } from "next/navigation";
-const teams = [
-  { id: 1, name: "Heroicons", href: "#", initial: "H", current: false },
-  { id: 2, name: "Tailwind Labs", href: "#", initial: "T", current: false },
-  { id: 3, name: "Workcation", href: "#", initial: "W", current: false },
-];
+
 const userNavigation = [
   { name: "Sign out", href: "#" },
 ];
 
 function classNames(...classes: string[]): string {
   return classes.filter(Boolean).join(" ");
+}
+
+function getSubItems(pathname: string) {
+  if (pathname !== "/chatbot") return [];
+
+  return [
+    { name: "Sessions", action: "#", initial: "S", current: false },
+    { name: "Nothing", action: "#", initial: "N", current: false },
+  ];
 }
 
 export default function Layout({ children }: { children: React.ReactNode }) {
@@ -47,6 +52,8 @@ export default function Layout({ children }: { children: React.ReactNode }) {
     { name: "User Profile", href: "/user-profile", icon: UsersIcon, current: pathname === "/user-profile" },
     { name: "Chatbot", href: "/chatbot", icon: ChatBubbleLeftIcon, current: pathname === "/chatbot" },
   ];
+
+  const otherItems = getSubItems(pathname);
 
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
@@ -87,7 +94,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
               <div className="flex grow flex-col gap-y-5 overflow-y-auto bg-white px-6 pb-4">
                 <div className="flex h-16 shrink-0 items-center">
                   <Image
-                    alt="Your Company"
+                    alt="Placeholder Logo"
                     src="https://tailwindui.com/plus/img/logos/mark.svg?color=indigo&shade=600"
                     className="h-8 w-auto"
                     width={100}
@@ -124,38 +131,40 @@ export default function Layout({ children }: { children: React.ReactNode }) {
                         ))}
                       </ul>
                     </li>
-                    <li>
-                      <div className="text-xs/6 font-semibold text-gray-400">
-                        Your teams
-                      </div>
-                      <ul role="list" className="-mx-2 mt-2 space-y-1">
-                        {teams.map((team) => (
-                          <li key={team.name}>
-                            <a
-                              href={team.href}
-                              className={classNames(
-                                team.current
-                                  ? "bg-gray-50 text-indigo-600"
-                                  : "text-gray-700 hover:bg-gray-50 hover:text-indigo-600",
-                                "group flex gap-x-3 rounded-md p-2 text-sm/6 font-semibold"
-                              )}
-                            >
-                              <span
+                    {otherItems.length > 0 && (
+                      <li>
+                        <div className="text-xs/6 font-semibold text-gray-400">
+                          Others
+                        </div>
+                        <ul role="list" className="-mx-2 mt-2 space-y-1">
+                          {otherItems.map((item) => (
+                            <li key={item.name}>
+                              <button
+                                onClick={() => item.action}
                                 className={classNames(
-                                  team.current
-                                    ? "border-indigo-600 text-indigo-600"
-                                    : "border-gray-200 text-gray-400 group-hover:border-indigo-600 group-hover:text-indigo-600",
-                                  "flex size-6 shrink-0 items-center justify-center rounded-lg border bg-white text-[0.625rem] font-medium"
+                                  item.current
+                                    ? "bg-gray-50 text-indigo-600"
+                                    : "text-gray-700 hover:bg-gray-50 hover:text-indigo-600",
+                                  "group flex gap-x-3 rounded-md p-2 text-sm/6 font-semibold"
                                 )}
                               >
-                                {team.initial}
-                              </span>
-                              <span className="truncate">{team.name}</span>
-                            </a>
-                          </li>
-                        ))}
-                      </ul>
-                    </li>
+                                <span
+                                  className={classNames(
+                                    item.current
+                                      ? "border-indigo-600 text-indigo-600"
+                                      : "border-gray-200 text-gray-400 group-hover:border-indigo-600 group-hover:text-indigo-600",
+                                    "flex size-6 shrink-0 items-center justify-center rounded-lg border bg-white text-[0.625rem] font-medium w-full"
+                                  )}
+                                >
+                                  {item.initial}
+                                </span>
+                                <span className="truncate">{item.name}</span>
+                              </button>
+                            </li>
+                          ))}
+                        </ul>
+                      </li>
+                    )}
                     <li className="mt-auto">
                       <a
                         href="#"
@@ -181,7 +190,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
           <div className="flex grow flex-col gap-y-5 overflow-y-auto border-r border-gray-200 bg-white px-6 pb-4">
             <div className="flex h-16 shrink-0 items-center">
               <Image
-                alt="Your Company"
+                alt="Placeholder Logo"
                 src="https://tailwindui.com/plus/img/logos/mark.svg?color=indigo&shade=600"
                 className="h-8 w-auto"
                 width={100}
@@ -218,38 +227,40 @@ export default function Layout({ children }: { children: React.ReactNode }) {
                     ))}
                   </ul>
                 </li>
-                <li>
-                  <div className="text-xs/6 font-semibold text-gray-400">
-                    Your teams
-                  </div>
-                  <ul role="list" className="-mx-2 mt-2 space-y-1">
-                    {teams.map((team) => (
-                      <li key={team.name}>
-                        <a
-                          href={team.href}
-                          className={classNames(
-                            team.current
-                              ? "bg-gray-50 text-indigo-600"
-                              : "text-gray-700 hover:bg-gray-50 hover:text-indigo-600",
-                            "group flex gap-x-3 rounded-md p-2 text-sm/6 font-semibold"
-                          )}
-                        >
-                          <span
+                {otherItems.length > 0 && (
+                  <li>
+                    <div className="text-xs/6 font-semibold text-gray-400">
+                      Others
+                    </div>
+                    <ul role="list" className="-mx-2 mt-2 space-y-1">
+                      {otherItems.map((item) => (
+                        <li key={item.name}>
+                          <button
+                            onClick={() => item.action}
                             className={classNames(
-                              team.current
-                                ? "border-indigo-600 text-indigo-600"
-                                : "border-gray-200 text-gray-400 group-hover:border-indigo-600 group-hover:text-indigo-600",
-                              "flex size-6 shrink-0 items-center justify-center rounded-lg border bg-white text-[0.625rem] font-medium"
+                              item.current
+                                ? "bg-gray-50 text-indigo-600"
+                                : "text-gray-700 hover:bg-gray-50 hover:text-indigo-600",
+                              "group flex gap-x-3 rounded-md p-2 text-sm/6 font-semibold w-full"
                             )}
                           >
-                            {team.initial}
-                          </span>
-                          <span className="truncate">{team.name}</span>
-                        </a>
-                      </li>
-                    ))}
-                  </ul>
-                </li>
+                            <span
+                              className={classNames(
+                                item.current
+                                  ? "border-indigo-600 text-indigo-600"
+                                  : "border-gray-200 text-gray-400 group-hover:border-indigo-600 group-hover:text-indigo-600",
+                                "flex size-6 shrink-0 items-center justify-center rounded-lg border bg-white text-[0.625rem] font-medium"
+                              )}
+                            >
+                              {item.initial}
+                            </span>
+                            <span className="truncate">{item.name}</span>
+                          </button>
+                        </li>
+                      ))}
+                    </ul>
+                  </li>
+                )}
                 <li className="mt-auto">
                   <a
                     href="#"
