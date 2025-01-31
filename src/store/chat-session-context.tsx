@@ -1,13 +1,11 @@
 import ChatSessionContext from "./chatSessionProvider";
-
-const chatContext = {
-  sessionDrawerOpen: false,
-  setSessionDrawerOpen: () => {},
-}
+import { useState } from "react";
 
 const ChatSessionProvider = ({ children }: { children: React.ReactNode }) => {
+  const [sessionDrawerOpen, setSessionDrawerOpen] = useState(false);
+
   return (
-    <ChatSessionContext.Provider value={chatContext}>
+    <ChatSessionContext.Provider value={{ sessionDrawerOpen, setSessionDrawerOpen }}>
       {children}
     </ChatSessionContext.Provider>
   )

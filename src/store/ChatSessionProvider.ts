@@ -1,8 +1,8 @@
 import { createContext } from "react";
 
 const ChatSessionContext = createContext({
-  sessionDrawerOpen: false,
-  setSessionDrawerOpen: () => {},
+  sessionDrawerOpen: true,
+  setSessionDrawerOpen: (open: boolean) => {},
 });
 
 export default ChatSessionContext;
