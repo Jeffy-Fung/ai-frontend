@@ -4,10 +4,10 @@ import { useContext } from 'react'
 import { Dialog, DialogPanel, DialogTitle } from '@headlessui/react'
 import { XMarkIcon } from '@heroicons/react/24/outline'
 import ChatSessionContext from '@/store/chatSessionProvider';
+import Divider from '@/components/divider';
 
-export default function SessionDrawer() {
+export default function SessionDrawer({ sessions }: { sessions: any }) {
   const { sessionDrawerOpen, setSessionDrawerOpen } = useContext(ChatSessionContext);
-  console.log(sessionDrawerOpen);
 
   return (
     <Dialog open={sessionDrawerOpen} onClose={setSessionDrawerOpen} className="relative z-10">
@@ -37,7 +37,10 @@ export default function SessionDrawer() {
                     </div>
                   </div>
                 </div>
-                <div className="relative mt-6 flex-1 px-4 sm:px-6">{/* Your content */}</div>
+                <div className="relative mt-6 flex-1 px-4 sm:px-6">
+                  <Divider />
+                  <SessionDrawerContent sessions={sessions} />
+                </div>
               </div>
             </DialogPanel>
           </div>
@@ -45,4 +48,39 @@ export default function SessionDrawer() {
       </div>
     </Dialog>
   )
+}
+
+function SessionDrawerContent({ sessions }: { sessions: any }) {
+  return (
+    <ul role="list" className="flex-1 divide-y divide-gray-200 overflow-y-auto">
+      {sessions.map((session: any) => (
+        <li key={session.id}>
+          <div className="group relative flex items-center px-5 py-6">
+            <button onClick={session.action} className="-m-1 block flex-1 p-1">
+              <div aria-hidden="true" className="absolute inset-0 group-hover:bg-gray-50" />
+              <div className="relative flex min-w-0 flex-1 items-center">
+                <span className="relative inline-block shrink-0">
+                  <span
+                    aria-hidden="true"
+                    className={classNames(
+                      session.current ? 'bg-green-400' : 'bg-gray-300',
+                      'absolute right-0 top-0 block size-2.5 rounded-full ring-2 ring-white',
+                    )}
+                  />
+                </span>
+                <div className="ml-4 truncate">
+                  <p className="truncate text-sm font-medium text-gray-900">{session.id}</p>
+                  <p className="truncate text-sm text-gray-500">@{session.date}</p>
+                </div>
+              </div>
+            </button>
+          </div>
+        </li>
+      ))}
+    </ul>
+  )
+}
+
+function classNames(...classes: string[]): string {
+  return classes.filter(Boolean).join(" ");
 }

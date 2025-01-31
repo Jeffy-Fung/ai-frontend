@@ -8,6 +8,15 @@ export default function Chatbot() {
     { role: "ai", text: "Hi, how can I help you today?" },
   ];
 
+  const sessions = [
+    {
+      id: 'eklajldkscjweijfiowe_ealwej',
+      date: '2025-01-31',
+      action: () => {},
+      current: true,
+    },
+  ]
+
   return (
     <>
       <div className="w-full h-full">
@@ -32,7 +41,7 @@ export default function Chatbot() {
           history={history}
         />
       </div>
-      <SessionDrawer />
+      <SessionDrawer sessions={sessions} />
     </>
   );
 }
