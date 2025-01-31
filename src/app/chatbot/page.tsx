@@ -4,8 +4,7 @@ import { DeepChat } from "deep-chat-react";
 
 export default function Chatbot() {
   const history = [
-    { role: "user", text: "Hey, how are you today?" },
-    { role: "ai", text: "I am doing very well!" },
+    { role: "ai", text: "Hi, how can I help you today?" },
   ];
 
   return (
