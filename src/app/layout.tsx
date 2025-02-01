@@ -1,12 +1,11 @@
 "use client";
 
-import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import Layout from "@/components/layout";
-import { isLoggedIn } from "./helpers/auth";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import ChatSessionProvider from "@/store/chat-session-context";
+import AuthProvider from "@/store/auth-context";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -35,7 +34,9 @@ export default function RootLayout({
       <html lang="en">
         <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
           <ChatSessionProvider>
-            {isLoggedIn() ? <Layout>{children}</Layout> : <div>{children}</div>}
+            <AuthProvider>
+              <Layout>{children}</Layout>
+            </AuthProvider>
           </ChatSessionProvider>
         </body>
       </html>

@@ -25,9 +25,10 @@ import {
   MagnifyingGlassIcon,
 } from "@heroicons/react/20/solid";
 import Image from "next/image";
-import { isLoggedIn, signOut } from "@/app/helpers/auth";
+import { signOut } from "@/app/helpers/auth";
 import { usePathname, useRouter } from "next/navigation";
 import ChatSessionContext from "@/store/ChatSessionProvider";
+import AuthContext from "@/store/AuthProvider";
 
 function classNames(...classes: string[]): string {
   return classes.filter(Boolean).join(" ");
@@ -44,9 +45,10 @@ function getSubItems(pathname: string, sessionDrawerOpen: boolean, setSessionDra
 
 export default function Layout({ children }: { children: React.ReactNode }) {
   const router = useRouter();
+  const { isLoggedIn, setIsLoggedIn } = useContext(AuthContext);
 
   const userNavigation = [
-    { name: "Sign out", action: () => { signOut(router); } },
+    { name: "Sign out", action: () => { signOut(router, setIsLoggedIn); } },
   ];
 
   const pathname = usePathname();
@@ -60,6 +62,10 @@ export default function Layout({ children }: { children: React.ReactNode }) {
   const otherItems = getSubItems(pathname, sessionDrawerOpen, setSessionDrawerOpen);
 
   const [sidebarOpen, setSidebarOpen] = useState(false);
+
+  if (!isLoggedIn) {
+    return <div>{children}</div>;
+  }
 
   return (
     <>
@@ -338,7 +344,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
                         aria-hidden="true"
                         className="ml-4 text-sm/6 font-semibold text-gray-900"
                       >
-                        {isLoggedIn() ? "User" : "Guest"}
+                        {isLoggedIn ? "User" : "Guest"}
                       </span>
                       <ChevronDownIcon
                         aria-hidden="true"

@@ -1,20 +1,21 @@
 "use client";
 
-import { saveItem } from "@/app/helpers/storage";
+import { signIn } from "@/app/helpers/auth";
 import { useRouter, useSearchParams } from "next/navigation";
-import { useEffect } from "react";
+import { useEffect, useContext } from "react";
+import AuthContext from "@/store/AuthProvider";
 
 export default function ProxyLogin() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const jwtToken = searchParams.get("jwtToken");
+  const { setIsLoggedIn } = useContext(AuthContext);
 
   useEffect(() => {
     if (jwtToken) {
-      saveItem("jwtToken", jwtToken);
-      router.push("/user-profile");
+      signIn(jwtToken, router, setIsLoggedIn);
     }
-  }, [jwtToken, router]);
+  }, [jwtToken, router, setIsLoggedIn]);
 
   if (!jwtToken) {
     return <div>ProxyLogin</div>;
