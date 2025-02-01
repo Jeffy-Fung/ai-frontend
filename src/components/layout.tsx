@@ -38,7 +38,7 @@ function getSubItems(pathname: string, sessionDrawerOpen: boolean, setSessionDra
   if (pathname !== "/chatbot") return [];
 
   return [
-    { name: "Sessions", action: () => {setSessionDrawerOpen(!sessionDrawerOpen)}, initial: "S", current: false },
+    { name: "Sessions", action: () => {setSessionDrawerOpen(!sessionDrawerOpen)}, initial: "S", current: sessionDrawerOpen },
     { name: "Nothing", action: () => {}, initial: "N", current: false },
   ];
 }
