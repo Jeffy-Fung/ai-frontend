@@ -25,13 +25,9 @@ import {
   MagnifyingGlassIcon,
 } from "@heroicons/react/20/solid";
 import Image from "next/image";
-import { isLoggedIn } from "@/app/helpers/auth";
-import { usePathname } from "next/navigation";
-import ChatSessionContext from "@/store/chatSessionProvider";
-
-const userNavigation = [
-  { name: "Sign out", href: "#" },
-];
+import { isLoggedIn, signOut } from "@/app/helpers/auth";
+import { usePathname, useRouter } from "next/navigation";
+import ChatSessionContext from "@/store/ChatSessionProvider";
 
 function classNames(...classes: string[]): string {
   return classes.filter(Boolean).join(" ");
@@ -47,6 +43,12 @@ function getSubItems(pathname: string, sessionDrawerOpen: boolean, setSessionDra
 }
 
 export default function Layout({ children }: { children: React.ReactNode }) {
+  const router = useRouter();
+
+  const userNavigation = [
+    { name: "Sign out", action: () => { signOut(router); } },
+  ];
+
   const pathname = usePathname();
 
   const navigation = [
@@ -350,12 +352,12 @@ export default function Layout({ children }: { children: React.ReactNode }) {
                   >
                     {userNavigation.map((item) => (
                       <MenuItem key={item.name}>
-                        <a
-                          href={item.href}
+                        <button
+                          onClick={item.action}
                           className="block px-3 py-1 text-sm/6 text-gray-900 data-[focus]:bg-gray-50 data-[focus]:outline-none"
                         >
                           {item.name}
-                        </a>
+                        </button>
                       </MenuItem>
                     ))}
                   </MenuItems>

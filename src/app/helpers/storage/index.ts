@@ -5,3 +5,7 @@ export function saveItem(key: string, value: string) {
 export function getItem(key: string) {
   return localStorage.getItem(key);
 }
+
+export function removeItem(key: string) {
+  localStorage.removeItem(key);
+}
