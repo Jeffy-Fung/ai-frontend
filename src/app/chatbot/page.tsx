@@ -21,7 +21,11 @@ export default function Chatbot() {
     <>
       <div className="w-full h-full">
         <DeepChat
-          demo={true}
+          connect={{
+            url: `${process.env.NEXT_PUBLIC_NODEJS_BACKEND_API_URL}/api/chats`,
+            method: "POST",
+            headers: {"customName": "customHeaderValue"}, // TODO: add session header
+          }}
           style={{ 
             borderRadius: "10px", 
             width: "800px", 
