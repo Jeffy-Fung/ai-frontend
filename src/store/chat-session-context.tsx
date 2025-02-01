@@ -1,4 +1,4 @@
-import ChatSessionContext from "./chatSessionProvider";
+import ChatSessionContext from "./ChatSessionProvider";
 import { useState } from "react";
 
 const ChatSessionProvider = ({ children }: { children: React.ReactNode }) => {

@@ -3,7 +3,7 @@
 import { useContext } from 'react'
 import { Dialog, DialogPanel, DialogTitle } from '@headlessui/react'
 import { XMarkIcon } from '@heroicons/react/24/outline'
-import ChatSessionContext from '@/store/chatSessionProvider';
+import ChatSessionContext from '@/store/ChatSessionProvider';
 import Divider from '@/components/divider';
 
 export default function SessionDrawer({ sessions }: { sessions: any }) {
