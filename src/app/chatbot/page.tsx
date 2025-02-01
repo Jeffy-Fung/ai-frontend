@@ -2,12 +2,15 @@
 
 import { DeepChat } from "deep-chat-react";
 import SessionDrawer from "@/components/drawers";
+import { getAuthToken } from "@/app/helpers/auth";
 
 export default function Chatbot() {
+  // TODO: get history from backend, with session id
   const history = [
     { role: "ai", text: "Hi, how can I help you today?" },
   ];
 
+  // TODO: get sessions from backend
   const sessions = [
     {
       id: 'eklajldkscjweijfiowe_ealwej',
@@ -24,7 +27,7 @@ export default function Chatbot() {
           connect={{
             url: `${process.env.NEXT_PUBLIC_NODEJS_BACKEND_API_URL}/api/chats`,
             method: "POST",
-            headers: {"customName": "customHeaderValue"}, // TODO: add session header
+            headers: {"Authorization": `Bearer ${getAuthToken()}`},
           }}
           style={{ 
             borderRadius: "10px", 
