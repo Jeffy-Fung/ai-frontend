@@ -1,14 +1,14 @@
 export type ChatHistory = {
-  id: string;
+  _id: string;
   session_id: string;
   role: string;
   message: string;
 }
 
 export type ChatSession = {
-  id: string;
-  created_at: string;
-  user_id: string;
+  _id: string;
+  createdAt: string;
+  user: string; // TODO: change to user id
 }
 
 

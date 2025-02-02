@@ -28,10 +28,10 @@ export default function Chatbot() {
   if (chatSessionsLoading || chatHistoriesLoading) return <div>Loading...</div>;
 
   const sessions = chatSessions.map((session: ChatSession) => ({
-    id: session.id,
-    date: session.created_at,
-    action: () => setSessionId(session.id),
-    current: session.id === sessionId,
+    id: session._id,
+    date: session.createdAt,
+    action: () => setSessionId(session._id),
+    current: session._id === sessionId,
   }));
 
   const histories = getHistories(chatHistories);
