@@ -3,52 +3,72 @@
 import { DeepChat } from "deep-chat-react";
 import SessionDrawer from "@/components/drawers";
 import { getAuthToken } from "@/app/helpers/auth";
+import { useChatHistories } from "@/app/nodejs-backend/chat-histories/queries/useChatHistories";
+import { useChatSessions } from "@/app/nodejs-backend/chat-histories/queries/useChatSessions";
+import { ChatHistory, ChatSession } from "@/types/chat";
+import { useState } from "react";
 
 export default function Chatbot() {
-  // TODO: get history from backend, with session id
-  const history = [
-    { role: "ai", text: "Hi, how can I help you today?" },
-  ];
+  const [sessionId, setSessionId] = useState<string | null>(null);
 
-  // TODO: get sessions from backend
-  const sessions = [
-    {
-      id: 'eklajldkscjweijfiowe_ealwej',
-      date: '2025-01-31',
-      action: () => {},
-      current: true,
-    },
-  ]
+  const { data: chatSessions, isLoading: chatSessionsLoading } = useChatSessions();
+  const { data: chatHistories, isLoading: chatHistoriesLoading } = useChatHistories(sessionId);
+
+  if (chatSessionsLoading || chatHistoriesLoading) return <div>Loading...</div>;
+
+  const sessions = chatSessions.data.map((session: ChatSession) => ({
+    id: session.id,
+    date: session.created_at,
+    action: () => setSessionId(session.id),
+    current: session.id === sessionId,
+  }));
+
+  const histories = chatHistories.data.length > 0
+  ? chatHistories.data.map((history: ChatHistory) => ({
+      role: history.role,
+      text: history.message,
+    }))
+  : [{ role: "ai", text: "Hi, how can I help you today?" }];
 
   return (
     <>
-      <div className="w-full h-full">
-        <DeepChat
-          connect={{
-            url: `${process.env.NEXT_PUBLIC_NODEJS_BACKEND_API_URL}/api/chats`,
-            method: "POST",
-            headers: {"Authorization": `Bearer ${getAuthToken()}`},
-          }}
-          style={{ 
-            borderRadius: "10px", 
-            width: "800px", 
-            height: "700px", 
-            paddingTop: "20px", 
-            paddingBottom: "20px"
-          }}
-          textInput={{ 
-            placeholder: { text: "Welcome to the demo!" },
-            styles: {
-              container: {
-                borderRadius: "10px",
-                padding: "5px"
-              }
-            }
-          }}
-          history={history}
-        />
-      </div>
+      {sessionId ? renderChat(histories) : renderFallbackMessage()}
       <SessionDrawer sessions={sessions} />
     </>
   );
 }
+
+const renderFallbackMessage = () => (
+  <div className="flex justify-center items-center h-full">
+    <div className="text-2xl font-bold">Select a session to start chatting</div>
+  </div>
+);
+
+const renderChat = (histories: ChatHistory[]) => (
+  <div className="w-full h-full">
+    <DeepChat
+      connect={{
+        url: `${process.env.NEXT_PUBLIC_NODEJS_BACKEND_API_URL}/api/chats`,
+        method: "POST",
+        headers: { "Authorization": `Bearer ${getAuthToken()}` },
+      }}
+      style={{
+        borderRadius: "10px",
+        width: "800px",
+        height: "700px",
+        paddingTop: "20px",
+        paddingBottom: "20px"
+      }}
+      textInput={{
+        placeholder: { text: "Welcome to the demo!" },
+        styles: {
+          container: {
+            borderRadius: "10px",
+            padding: "5px"
+          }
+        }
+      }}
+      history={histories}
+    />
+  </div>
+);
