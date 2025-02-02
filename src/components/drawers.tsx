@@ -6,7 +6,14 @@ import { XMarkIcon } from '@heroicons/react/24/outline'
 import ChatSessionContext from '@/store/ChatSessionProvider';
 import Divider from '@/components/divider';
 
-export default function SessionDrawer({ sessions }: { sessions: any }) {
+type Session = {
+  id: string;
+  date: string;
+  action: () => void;
+  current: boolean;
+}
+
+export default function SessionDrawer({ sessions }: { sessions: Session[] }) {
   const { sessionDrawerOpen, setSessionDrawerOpen } = useContext(ChatSessionContext);
 
   return (
@@ -50,10 +57,10 @@ export default function SessionDrawer({ sessions }: { sessions: any }) {
   )
 }
 
-function SessionDrawerContent({ sessions }: { sessions: any }) {
+function SessionDrawerContent({ sessions }: { sessions: Session[] }) {
   return (
     <ul role="list" className="flex-1 divide-y divide-gray-200 overflow-y-auto">
-      {sessions.map((session: any) => (
+      {sessions.map((session: Session) => (
         <li key={session.id}>
           <div className="group relative flex items-center px-5 py-6">
             <button onClick={session.action} className="-m-1 block flex-1 p-1">
