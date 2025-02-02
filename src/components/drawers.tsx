@@ -5,6 +5,8 @@ import { Dialog, DialogPanel, DialogTitle } from '@headlessui/react'
 import { XMarkIcon } from '@heroicons/react/24/outline'
 import ChatSessionContext from '@/store/ChatSessionProvider';
 import Divider from '@/components/divider';
+import DividerWithButton from '@/components/divider-with-button';
+import { usePostChatSession } from '@/app/nodejs-backend/chat-histories/mutations/useChatSession';
 
 type Session = {
   id: string;
@@ -15,6 +17,9 @@ type Session = {
 
 export default function SessionDrawer({ sessions }: { sessions: Session[] }) {
   const { sessionDrawerOpen, setSessionDrawerOpen } = useContext(ChatSessionContext);
+  const { mutate: postChatSession } = usePostChatSession();
+
+  // TODO: handle create session loading state
 
   return (
     <Dialog open={sessionDrawerOpen} onClose={setSessionDrawerOpen} className="relative z-10">
@@ -47,6 +52,7 @@ export default function SessionDrawer({ sessions }: { sessions: Session[] }) {
                 <div className="relative mt-6 flex-1 px-4 sm:px-6">
                   <Divider />
                   <SessionDrawerContent sessions={sessions} />
+                  <DividerWithButton onClick={() => postChatSession()} buttonText="New Session" />
                 </div>
               </div>
             </DialogPanel>

@@ -17,47 +17,50 @@ export async function get(path: string, params: Record<string, string | number |
   return parsedResponse.data;
 }
 
-// export async function post(
-//   path,
-//   data,
-//   { ignoreAuthorization = false, onResponseHeader = null } = {}
-// ) {
-//   const response = await callFetch(path, {
-//     method: "POST",
-//     body: JSON.stringify(data),
-//     ignoreAuthorization,
-//   });
+export async function post(
+  path: string,
+  data: Record<string, any>,
+  {
+    ignoreAuthorization = false,
+    onResponseHeader = undefined,
+  }: { ignoreAuthorization?: boolean; onResponseHeader?: (headers: Headers) => void } = {}
+) {
+  const response = await callFetch(path, {
+    method: "POST",
+    body: JSON.stringify(data),
+    ignoreAuthorization,
+  });
 
-//   if (!response.ok) {
-//     return handleError(response);
-//   }
+  if (!response.ok) {
+    return handleError(response);
+  }
 
-//   onResponseHeader?.(response.headers);
+  onResponseHeader?.(response.headers);
 
-//   // 204 No Content - return nothing.
-//   if (response.status === 204) {
-//     return null;
-//   }
+  // 204 No Content - return nothing.
+  if (response.status === 204) {
+    return null;
+  }
 
-//   const parsedResponse = await response.json();
+  const parsedResponse = await response.json();
 
-//   return parsedResponse.data;
-// }
+  return parsedResponse.data;
+}
 
-// export async function patch(path, data) {
-//   const response = await callFetch(path, {
-//     method: "PATCH",
-//     body: JSON.stringify(data),
-//   });
+export async function patch(path: string, data: Record<string, any>) {
+  const response = await callFetch(path, {
+    method: "PATCH",
+    body: JSON.stringify(data),
+  });
 
-//   if (!response.ok) {
-//     return handleError(response);
-//   }
+  if (!response.ok) {
+    return handleError(response);
+  }
 
-//   const parsedResponse = await response.json();
+  const parsedResponse = await response.json();
 
-//   return parsedResponse.data;
-// }
+  return parsedResponse.data;
+}
 
 function callFetch(resource: string, { ignoreAuthorization = false, ...options }: { ignoreAuthorization?: boolean;[key: string]: any }) {
   const headers: Record<string, string> = {
