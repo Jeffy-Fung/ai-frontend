@@ -5,5 +5,6 @@ export function useChatHistories(sessionId: string) {
   return useQuery({
     queryKey: ["chat-histories", sessionId],
     queryFn: () => getChatHistories(sessionId),
+    enabled: !!sessionId,
   });
 }

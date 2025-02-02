@@ -8,27 +8,33 @@ import { useChatSessions } from "@/app/nodejs-backend/chat-histories/queries/use
 import { ChatHistory, ChatSession } from "@/types/chat";
 import { useState } from "react";
 
+const getHistories = (chatHistories: ChatHistory[] | undefined) => {
+  if (chatHistories?.length && chatHistories.length > 0) {
+    return chatHistories.map((history: ChatHistory) => ({
+      role: history.role,
+      text: history.message,
+    }));
+  }
+
+  return [{ role: "ai", text: "Hi, how can I help you today?" }];
+}
+
 export default function Chatbot() {
   const [sessionId, setSessionId] = useState<string | null>(null);
 
   const { data: chatSessions, isLoading: chatSessionsLoading } = useChatSessions();
-  const { data: chatHistories, isLoading: chatHistoriesLoading } = useChatHistories(sessionId);
+  const { data: chatHistories, isLoading: chatHistoriesLoading } = useChatHistories(sessionId ?? "");
 
   if (chatSessionsLoading || chatHistoriesLoading) return <div>Loading...</div>;
 
-  const sessions = chatSessions.data.map((session: ChatSession) => ({
+  const sessions = chatSessions.map((session: ChatSession) => ({
     id: session.id,
     date: session.created_at,
     action: () => setSessionId(session.id),
     current: session.id === sessionId,
   }));
 
-  const histories = chatHistories.data.length > 0
-  ? chatHistories.data.map((history: ChatHistory) => ({
-      role: history.role,
-      text: history.message,
-    }))
-  : [{ role: "ai", text: "Hi, how can I help you today?" }];
+  const histories = getHistories(chatHistories);
 
   return (
     <>
@@ -44,7 +50,7 @@ const renderFallbackMessage = () => (
   </div>
 );
 
-const renderChat = (histories: ChatHistory[]) => (
+const renderChat = (histories: { role: string; text: string }[]) => (
   <div className="w-full h-full">
     <DeepChat
       connect={{
