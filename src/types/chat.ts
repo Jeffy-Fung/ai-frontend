@@ -1,14 +1,17 @@
+type ChatRole = "user" | "ai";
+
 export type ChatHistory = {
-  _id: string;
-  session_id: string;
-  role: string;
+  id: string;
+  sessionid: string;
+  role: ChatRole;
   message: string;
+  createdAt: string;
+  updatedAt: string;
 }
 
 export type ChatSession = {
-  _id: string;
+  id: string;
   createdAt: string;
-  user: string; // TODO: change to user id
+  updatedAt: string;
+  userId: string; // TODO: change to user id
 }
-
-

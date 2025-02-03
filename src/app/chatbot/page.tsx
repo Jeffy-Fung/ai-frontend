@@ -28,17 +28,17 @@ export default function Chatbot() {
   if (chatSessionsLoading || chatHistoriesLoading) return <div>Loading...</div>;
 
   const sessions = chatSessions.map((session: ChatSession) => ({
-    id: session._id,
+    id: session.id,
     date: session.createdAt,
-    action: () => setSessionId(session._id),
-    current: session._id === sessionId,
+    action: () => setSessionId(session.id),
+    current: session.id === sessionId,
   }));
 
   const histories = getHistories(chatHistories);
 
   return (
     <>
-      {sessionId ? renderChat(histories) : renderFallbackMessage()}
+      {sessionId ? renderChat(histories, sessionId) : renderFallbackMessage()}
       <SessionDrawer sessions={sessions} />
     </>
   );
@@ -50,13 +50,14 @@ const renderFallbackMessage = () => (
   </div>
 );
 
-const renderChat = (histories: { role: string; text: string }[]) => (
+const renderChat = (histories: { role: string; text: string }[], sessionId: string) => (
   <div className="w-full h-full">
     <DeepChat
       connect={{
         url: `${process.env.NEXT_PUBLIC_NODEJS_BACKEND_API_URL}/api/chats`,
         method: "POST",
         headers: { "Authorization": `Bearer ${getAuthToken()}` },
+        additionalBodyProps: { "sessionId": sessionId }
       }}
       style={{
         borderRadius: "10px",
