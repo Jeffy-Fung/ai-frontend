@@ -8,16 +8,22 @@ import { useState } from "react";
 import { usePostRagChatSession } from '@/app/nodejs-backend/chat-histories/mutations/useRagChatSession';
 import { getHistories } from "@/app/helpers/chats/get-histories";
 import Chatbot from "@/components/chatbot";
+import NewsArticlesDrawers from "@/components/news-articles-drawers";
+import { useTrendingNewsArticles } from "../nodejs-backend/news-articles/queries/useTrendingNewsArticles";
+import { NewsArticle } from "@/types/news-articles";
 
 
 export default function RagChatbot() {
   const [sessionId, setSessionId] = useState<string | null>(null);
+  const [newsArticleIds, setNewsArticleIds] = useState<string[]>([]);
 
   const { data: chatSessions, isLoading: chatSessionsLoading } = useRagChatSessions();
   const { data: chatHistories, isLoading: chatHistoriesLoading } = useChatHistories(sessionId ?? "");
   const { mutate: postRagChatSession } = usePostRagChatSession();
 
-  if (chatSessionsLoading || chatHistoriesLoading) return <div>Loading...</div>;
+  const { data: newsArticlesData, isLoading: newsArticlesLoading } = useTrendingNewsArticles();
+
+  if (chatSessionsLoading || chatHistoriesLoading || newsArticlesLoading) return <div>Loading...</div>;
 
   const sessions = chatSessions.map((session: ChatSession) => ({
     id: session.id,
@@ -26,12 +32,28 @@ export default function RagChatbot() {
     current: session.id === sessionId,
   }));
 
+  const newsArticles = newsArticlesData.map((newsArticle: NewsArticle) => ({
+    id: newsArticle.id,
+    title: newsArticle.title,
+    description: newsArticle.description,
+    publishedAt: newsArticle.publishedAt,
+    action: () => {
+        setNewsArticleIds(prevIds => 
+            prevIds.includes(newsArticle.id) 
+                ? prevIds.filter(id => id !== newsArticle.id) 
+                : [...prevIds, newsArticle.id]
+        );
+    },
+    current: newsArticleIds.includes(newsArticle.id),
+  }));
+
   const histories = getHistories(chatHistories);
 
   return (
     <>
       {sessionId ? <Chatbot histories={histories} sessionId={sessionId} path="/api/chats/rag" /> : renderFallbackMessage()}
       <SessionDrawer sessions={sessions} postChatSession={postRagChatSession} />
+      <NewsArticlesDrawers newsArticles={newsArticles} />
     </>
   );
 }

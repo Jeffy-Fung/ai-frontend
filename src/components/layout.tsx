@@ -34,11 +34,32 @@ function classNames(...classes: string[]): string {
   return classes.filter(Boolean).join(" ");
 }
 
-function getSubItems(pathname: string, sessionDrawerOpen: boolean, setSessionDrawerOpen: (open: boolean) => void) {
+function getSubItems(
+  pathname: string,
+  sessionDrawerOpen: boolean,
+  setSessionDrawerOpen: (open: boolean) => void,
+  newsArticlesDrawerOpen: boolean,
+  setNewsArticlesDrawerOpen: (open: boolean) => void
+) {
   if (pathname !== "/chatbot" && pathname !== "/rag-chatbot") return [];
 
   return [
-    { name: "Sessions", action: () => {setSessionDrawerOpen(!sessionDrawerOpen)}, initial: "S", current: sessionDrawerOpen },
+    {
+      name: "Sessions",
+      action: () => {
+        setSessionDrawerOpen(!sessionDrawerOpen);
+      },
+      initial: "S",
+      current: sessionDrawerOpen,
+    },
+    {
+      name: "News Articles",
+      action: () => {
+        setNewsArticlesDrawerOpen(!newsArticlesDrawerOpen);
+      },
+      initial: "N",
+      current: newsArticlesDrawerOpen,
+    },
   ];
 }
 
@@ -47,20 +68,50 @@ export default function Layout({ children }: { children: React.ReactNode }) {
   const { isLoggedIn, setIsLoggedIn } = useContext(AuthContext);
 
   const userNavigation = [
-    { name: "Sign out", action: () => { signOut(router, setIsLoggedIn); } },
+    {
+      name: "Sign out",
+      action: () => {
+        signOut(router, setIsLoggedIn);
+      },
+    },
   ];
 
   const pathname = usePathname();
 
   const navigation = [
-    { name: "User Profile", href: "/user-profile", icon: UsersIcon, current: pathname === "/user-profile" },
-    { name: "Simple Chatbot", href: "/chatbot", icon: ChatBubbleLeftIcon, current: pathname === "/chatbot" },
-    { name: "RAG Chatbot", href: "/rag-chatbot", icon: ChatBubbleLeftIcon, current: pathname === "/rag-chatbot" },
+    {
+      name: "User Profile",
+      href: "/user-profile",
+      icon: UsersIcon,
+      current: pathname === "/user-profile",
+    },
+    {
+      name: "Simple Chatbot",
+      href: "/chatbot",
+      icon: ChatBubbleLeftIcon,
+      current: pathname === "/chatbot",
+    },
+    {
+      name: "RAG Chatbot",
+      href: "/rag-chatbot",
+      icon: ChatBubbleLeftIcon,
+      current: pathname === "/rag-chatbot",
+    },
   ];
-  const { sessionDrawerOpen, setSessionDrawerOpen } = useContext(ChatSessionContext);
+  const {
+    sessionDrawerOpen,
+    setSessionDrawerOpen,
+    newsArticlesDrawerOpen,
+    setNewsArticlesDrawerOpen,
+  } = useContext(ChatSessionContext);
 
-
-  const otherItems = getSubItems(pathname, sessionDrawerOpen, setSessionDrawerOpen);
+  const otherItems = getSubItems(
+    pathname,
+    sessionDrawerOpen,
+    setSessionDrawerOpen,
+    newsArticlesDrawerOpen,
+    setNewsArticlesDrawerOpen
+  );
 
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
