@@ -6,7 +6,7 @@ import { XMarkIcon } from '@heroicons/react/24/outline'
 import ChatSessionContext from '@/store/ChatSessionProvider';
 import Divider from '@/components/divider';
 import DividerWithButton from '@/components/divider-with-button';
-import { usePostSimpleChatSession } from '@/app/nodejs-backend/chat-histories/mutations/useChatSession';
+import { usePostSimpleChatSession } from '@/app/nodejs-backend/chat-histories/mutations/useSimpleChatSession';
 
 type Session = {
   id: string;

@@ -1,5 +1,5 @@
 import { useMutation } from "@tanstack/react-query";
-import { postSimpleChatSession } from "../api/postChatSession";
+import { postSimpleChatSession } from "../api/postSimpleChatSession";
 import { useQueryClient } from "@tanstack/react-query";
 
 export function usePostSimpleChatSession() {
