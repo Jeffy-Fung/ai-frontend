@@ -57,7 +57,7 @@ const renderChat = (histories: { role: string; text: string }[], sessionId: stri
   <div className="w-full h-full">
     <DeepChat
       connect={{
-        url: `${process.env.NEXT_PUBLIC_NODEJS_BACKEND_API_URL}/api/chats`,
+        url: `${process.env.NEXT_PUBLIC_NODEJS_BACKEND_API_URL}/api/chats/rag`,
         method: "POST",
         headers: { "Authorization": `Bearer ${getAuthToken()}` },
         additionalBodyProps: { "sessionId": sessionId }
