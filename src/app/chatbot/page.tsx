@@ -1,6 +1,6 @@
 "use client";
 
-import SessionDrawer from "@/components/drawers";
+import SessionDrawer from "@/components/session-drawers";
 import { useChatHistories } from "@/app/nodejs-backend/chat-histories/queries/useChatHistories";
 import { useSimpleChatSessions } from "@/app/nodejs-backend/chat-histories/queries/useSimpleChatSessions";
 import { ChatSession } from "@/types/chat";

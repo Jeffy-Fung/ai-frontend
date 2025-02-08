@@ -1,6 +1,6 @@
 "use client";
 
-import SessionDrawer from "@/components/drawers";
+import SessionDrawer from "@/components/session-drawers";
 import { useChatHistories } from "@/app/nodejs-backend/chat-histories/queries/useChatHistories";
 import { useRagChatSessions } from "@/app/nodejs-backend/chat-histories/queries/useRagChatSessions";
 import { ChatSession } from "@/types/chat";
