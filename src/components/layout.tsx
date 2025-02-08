@@ -35,11 +35,10 @@ function classNames(...classes: string[]): string {
 }
 
 function getSubItems(pathname: string, sessionDrawerOpen: boolean, setSessionDrawerOpen: (open: boolean) => void) {
-  if (pathname !== "/chatbot") return [];
+  if (pathname !== "/chatbot" && pathname !== "/rag-chatbot") return [];
 
   return [
     { name: "Sessions", action: () => {setSessionDrawerOpen(!sessionDrawerOpen)}, initial: "S", current: sessionDrawerOpen },
-    { name: "Nothing", action: () => {}, initial: "N", current: false },
   ];
 }
 
@@ -55,9 +54,11 @@ export default function Layout({ children }: { children: React.ReactNode }) {
 
   const navigation = [
     { name: "User Profile", href: "/user-profile", icon: UsersIcon, current: pathname === "/user-profile" },
-    { name: "Chatbot", href: "/chatbot", icon: ChatBubbleLeftIcon, current: pathname === "/chatbot" },
+    { name: "Simple Chatbot", href: "/chatbot", icon: ChatBubbleLeftIcon, current: pathname === "/chatbot" },
+    { name: "RAG Chatbot", href: "/rag-chatbot", icon: ChatBubbleLeftIcon, current: pathname === "/rag-chatbot" },
   ];
   const { sessionDrawerOpen, setSessionDrawerOpen } = useContext(ChatSessionContext);
+
 
   const otherItems = getSubItems(pathname, sessionDrawerOpen, setSessionDrawerOpen);
 
