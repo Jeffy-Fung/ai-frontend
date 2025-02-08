@@ -6,7 +6,6 @@ import { XMarkIcon } from '@heroicons/react/24/outline'
 import ChatSessionContext from '@/store/ChatSessionProvider';
 import Divider from '@/components/divider';
 import DividerWithButton from '@/components/divider-with-button';
-import { usePostSimpleChatSession } from '@/app/nodejs-backend/chat-histories/mutations/useSimpleChatSession';
 
 type Session = {
   id: string;
@@ -15,9 +14,8 @@ type Session = {
   current: boolean;
 }
 
-export default function SessionDrawer({ sessions }: { sessions: Session[] }) {
+export default function SessionDrawer({ sessions, postChatSession }: { sessions: Session[], postChatSession: () => void }) {
   const { sessionDrawerOpen, setSessionDrawerOpen } = useContext(ChatSessionContext);
-  const { mutate: postChatSession } = usePostSimpleChatSession();
 
   // TODO: handle create session loading state
 

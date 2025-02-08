@@ -7,6 +7,7 @@ import { useChatHistories } from "@/app/nodejs-backend/chat-histories/queries/us
 import { useSimpleChatSessions } from "@/app/nodejs-backend/chat-histories/queries/useSimpleChatSessions";
 import { ChatHistory, ChatSession } from "@/types/chat";
 import { useState } from "react";
+import { usePostSimpleChatSession } from '@/app/nodejs-backend/chat-histories/mutations/useSimpleChatSession';
 
 const getHistories = (chatHistories: ChatHistory[] | undefined) => {
   if (chatHistories?.length && chatHistories.length > 0) {
@@ -16,6 +17,7 @@ const getHistories = (chatHistories: ChatHistory[] | undefined) => {
     }));
   }
 
+  // Get initial template message from backend
   return [{ role: "ai", text: "Hi, how can I help you today?" }];
 }
 
@@ -24,6 +26,7 @@ export default function Chatbot() {
 
   const { data: chatSessions, isLoading: chatSessionsLoading } = useSimpleChatSessions();
   const { data: chatHistories, isLoading: chatHistoriesLoading } = useChatHistories(sessionId ?? "");
+  const { mutate: postSimpleChatSession } = usePostSimpleChatSession();
 
   if (chatSessionsLoading || chatHistoriesLoading) return <div>Loading...</div>;
 
@@ -39,7 +42,7 @@ export default function Chatbot() {
   return (
     <>
       {sessionId ? renderChat(histories, sessionId) : renderFallbackMessage()}
-      <SessionDrawer sessions={sessions} />
+      <SessionDrawer sessions={sessions} postChatSession={postSimpleChatSession} />
     </>
   );
 }
