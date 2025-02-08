@@ -1,5 +1,5 @@
 import { post } from "@/app/helpers/api";
 
-export function postChatSession() {
-  return post(`api/chat-sessions`, {});
+export function postSimpleChatSession() {
+  return post(`api/simple-chat-sessions`, {});
 }

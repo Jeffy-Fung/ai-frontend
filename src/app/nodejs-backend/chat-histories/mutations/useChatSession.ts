@@ -1,15 +1,15 @@
 import { useMutation } from "@tanstack/react-query";
-import { postChatSession } from "../api/postChatSession";
+import { postSimpleChatSession } from "../api/postChatSession";
 import { useQueryClient } from "@tanstack/react-query";
 
-export function usePostChatSession() {
+export function usePostSimpleChatSession() {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: postChatSession,
+    mutationFn: postSimpleChatSession,
     onSuccess: (data) => {
       console.log(data);
-      queryClient.invalidateQueries({ queryKey: ["chat-sessions"] });
+      queryClient.invalidateQueries({ queryKey: ["simple-chat-sessions"] });
     },
   });
 }
