@@ -4,7 +4,7 @@ import { DeepChat } from "deep-chat-react";
 import SessionDrawer from "@/components/drawers";
 import { getAuthToken } from "@/app/helpers/auth";
 import { useChatHistories } from "@/app/nodejs-backend/chat-histories/queries/useChatHistories";
-import { useChatSessions } from "@/app/nodejs-backend/chat-histories/queries/useChatSessions";
+import { useSimpleChatSessions } from "@/app/nodejs-backend/chat-histories/queries/useSimpleChatSessions";
 import { ChatHistory, ChatSession } from "@/types/chat";
 import { useState } from "react";
 
@@ -22,7 +22,7 @@ const getHistories = (chatHistories: ChatHistory[] | undefined) => {
 export default function Chatbot() {
   const [sessionId, setSessionId] = useState<string | null>(null);
 
-  const { data: chatSessions, isLoading: chatSessionsLoading } = useChatSessions();
+  const { data: chatSessions, isLoading: chatSessionsLoading } = useSimpleChatSessions();
   const { data: chatHistories, isLoading: chatHistoriesLoading } = useChatHistories(sessionId ?? "");
 
   if (chatSessionsLoading || chatHistoriesLoading) return <div>Loading...</div>;

@@ -13,5 +13,8 @@ export type ChatSession = {
   id: string;
   createdAt: string;
   updatedAt: string;
-  userId: string; // TODO: change to user id
+  userId: string;
+  type: ChatSessionType;
 }
+
+export type ChatSessionType = "simple" | "rag";
