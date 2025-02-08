@@ -5,21 +5,11 @@ import SessionDrawer from "@/components/drawers";
 import { getAuthToken } from "@/app/helpers/auth";
 import { useChatHistories } from "@/app/nodejs-backend/chat-histories/queries/useChatHistories";
 import { useSimpleChatSessions } from "@/app/nodejs-backend/chat-histories/queries/useSimpleChatSessions";
-import { ChatHistory, ChatSession } from "@/types/chat";
+import { ChatSession } from "@/types/chat";
 import { useState } from "react";
 import { usePostSimpleChatSession } from '@/app/nodejs-backend/chat-histories/mutations/useSimpleChatSession';
+import { getHistories } from "@/app/helpers/chats/get-histories";
 
-const getHistories = (chatHistories: ChatHistory[] | undefined) => {
-  if (chatHistories?.length && chatHistories.length > 0) {
-    return chatHistories.map((history: ChatHistory) => ({
-      role: history.role,
-      text: history.message,
-    }));
-  }
-
-  // Get initial template message from backend
-  return [{ role: "ai", text: "Hi, how can I help you today?" }];
-}
 
 export default function Chatbot() {
   const [sessionId, setSessionId] = useState<string | null>(null);

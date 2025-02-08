@@ -5,21 +5,11 @@ import SessionDrawer from "@/components/drawers";
 import { getAuthToken } from "@/app/helpers/auth";
 import { useChatHistories } from "@/app/nodejs-backend/chat-histories/queries/useChatHistories";
 import { useRagChatSessions } from "@/app/nodejs-backend/chat-histories/queries/useRagChatSessions";
-import { ChatHistory, ChatSession } from "@/types/chat";
+import { ChatSession } from "@/types/chat";
 import { useState } from "react";
 import { usePostRagChatSession } from '@/app/nodejs-backend/chat-histories/mutations/useRagChatSession';
+import { getHistories } from "@/app/helpers/chats/get-histories";
 
-const getHistories = (chatHistories: ChatHistory[] | undefined) => {
-  if (chatHistories?.length && chatHistories.length > 0) {
-    return chatHistories.map((history: ChatHistory) => ({
-      role: history.role,
-      text: history.message,
-    }));
-  }
-
-  // Get initial template message from backend
-  return [{ role: "ai", text: "Talk to the current news article." }];
-}
 
 export default function RagChatbot() {
   const [sessionId, setSessionId] = useState<string | null>(null);
