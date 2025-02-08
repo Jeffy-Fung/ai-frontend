@@ -5,10 +5,13 @@ export default function Chatbot({
   histories,
   sessionId,
   path,
+  additionalBodyProps,
 }: {
   histories: { role: string; text: string }[];
   sessionId: string;
   path: string;
+  additionalBodyProps?: { newsArticleIds: string[] };
+
 }) {
   return (
     <div className="w-full h-full">
@@ -17,7 +20,7 @@ export default function Chatbot({
           url: `${process.env.NEXT_PUBLIC_NODEJS_BACKEND_API_URL}${path}`,
           method: "POST",
           headers: { Authorization: `Bearer ${getAuthToken()}` },
-          additionalBodyProps: { sessionId: sessionId },
+          additionalBodyProps: { sessionId: sessionId, ...additionalBodyProps },
         }}
         style={{
           borderRadius: "10px",
