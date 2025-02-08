@@ -60,6 +60,7 @@ export default function RagChatbot() {
           sessionId={sessionId}
           path="/api/chats/rag"
           additionalBodyProps={{ newsArticleIds: newsArticleIds }}
+          key={JSON.stringify(newsArticleIds)}
         />
       ) : (
         renderFallbackMessage()
