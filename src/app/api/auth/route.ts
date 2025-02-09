@@ -6,6 +6,14 @@ export async function GET(request: Request) {
   const url = new URL(request.url);
   const jwtToken = url.searchParams.get('jwtToken');
 
+  if (!jwtToken) {
+    return NextResponse.json({ error: { message: "Token is required." } }, { status: 401 });
+  }
+
+  if (!process.env.JWT_SECRET) {
+    throw new Error('JWT_SECRET is not defined');
+  }
+
   try {
     jwt.verify(jwtToken, process.env.JWT_SECRET);
     return NextResponse.redirect(new URL("/proxy/login?jwtToken=" + jwtToken, request.url));
