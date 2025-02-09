@@ -7,7 +7,11 @@ import { ChatSession } from "@/types/chat";
 import { useState } from "react";
 import { usePostSimpleChatSession } from "@/app/nodejs-backend/chat-histories/mutations/useSimpleChatSession";
 import { getHistories } from "@/app/helpers/chats/get-histories";
-import Chatbot from "@/components/chatbot";
+import dynamic from "next/dynamic";
+
+const Chatbot = dynamic(() => import('@/components/chatbot'), {
+  loading: () => <p>Loading...</p>,
+})
 
 export default function SimpleChatbot() {
   const [sessionId, setSessionId] = useState<string | null>(null);

@@ -7,10 +7,14 @@ import { ChatSession } from "@/types/chat";
 import { useState } from "react";
 import { usePostRagChatSession } from "@/app/nodejs-backend/chat-histories/mutations/useRagChatSession";
 import { getHistories } from "@/app/helpers/chats/get-histories";
-import Chatbot from "@/components/chatbot";
 import NewsArticlesDrawers from "@/components/news-articles-drawers";
 import { useTrendingNewsArticles } from "../nodejs-backend/news-articles/queries/useTrendingNewsArticles";
 import { NewsArticle } from "@/types/news-articles";
+import dynamic from "next/dynamic";
+
+const Chatbot = dynamic(() => import('@/components/chatbot'), {
+  loading: () => <p>Loading...</p>,
+})
 
 export default function RagChatbot() {
   const [sessionId, setSessionId] = useState<string | null>(null);
