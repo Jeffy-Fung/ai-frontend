@@ -43,6 +43,19 @@ function getSubItems(
 ) {
   if (pathname !== "/chatbot" && pathname !== "/rag-chatbot") return [];
 
+  if (pathname === "/chatbot") {
+    return [
+      {
+        name: "Sessions",
+        action: () => {
+          setSessionDrawerOpen(!sessionDrawerOpen);
+        },
+        initial: "S",
+        current: sessionDrawerOpen,
+      },
+    ];
+  }
+
   return [
     {
       name: "Sessions",
