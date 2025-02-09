@@ -2,7 +2,7 @@
 
 import { signIn } from "@/app/helpers/auth";
 import { useRouter, useSearchParams } from "next/navigation";
-import { useEffect, useContext } from "react";
+import { useEffect, useContext, Suspense } from "react";
 import AuthContext from "@/store/AuthProvider";
 
 export default function ProxyLogin() {
@@ -17,9 +17,9 @@ export default function ProxyLogin() {
     }
   }, [jwtToken, router, setIsLoggedIn]);
 
-  if (!jwtToken) {
-    return <div>ProxyLogin</div>;
-  }
-
-  return <div>ProxyLogin</div>;
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <div>ProxyLogin</div>
+    </Suspense>
+  );
 }
