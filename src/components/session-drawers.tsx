@@ -17,14 +17,14 @@ type Session = {
 export default function SessionDrawer({
   sessions,
   postChatSession,
+  postChatSessionLoading,
 }: {
   sessions: Session[];
   postChatSession: () => void;
+  postChatSessionLoading: boolean;
 }) {
   const { sessionDrawerOpen, setSessionDrawerOpen } =
     useContext(ChatSessionContext);
-
-  // TODO: handle create session loading state
 
   return (
     <Dialog
@@ -66,6 +66,7 @@ export default function SessionDrawer({
                   <DividerWithButton
                     onClick={() => postChatSession()}
                     buttonText="New Session"
+                    loading={postChatSessionLoading}
                   />
                 </div>
               </div>

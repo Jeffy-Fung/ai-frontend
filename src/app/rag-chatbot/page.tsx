@@ -20,7 +20,8 @@ export default function RagChatbot() {
     useRagChatSessions();
   const { data: chatHistories, isLoading: chatHistoriesLoading } =
     useChatHistories(sessionId ?? "");
-  const { mutate: postRagChatSession } = usePostRagChatSession();
+  const { mutate: postRagChatSession, isPending: postRagChatSessionLoading } =
+    usePostRagChatSession();
 
   const { data: newsArticlesData, isLoading: newsArticlesLoading } =
     useTrendingNewsArticles();
@@ -65,7 +66,11 @@ export default function RagChatbot() {
       ) : (
         renderFallbackMessage()
       )}
-      <SessionDrawer sessions={sessions} postChatSession={postRagChatSession} />
+      <SessionDrawer
+        sessions={sessions}
+        postChatSession={postRagChatSession}
+        postChatSessionLoading={postRagChatSessionLoading}
+      />
       <NewsArticlesDrawers newsArticles={newsArticles} />
     </>
   );

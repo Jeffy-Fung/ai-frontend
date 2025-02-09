@@ -5,16 +5,20 @@ import { useChatHistories } from "@/app/nodejs-backend/chat-histories/queries/us
 import { useSimpleChatSessions } from "@/app/nodejs-backend/chat-histories/queries/useSimpleChatSessions";
 import { ChatSession } from "@/types/chat";
 import { useState } from "react";
-import { usePostSimpleChatSession } from '@/app/nodejs-backend/chat-histories/mutations/useSimpleChatSession';
+import { usePostSimpleChatSession } from "@/app/nodejs-backend/chat-histories/mutations/useSimpleChatSession";
 import { getHistories } from "@/app/helpers/chats/get-histories";
 import Chatbot from "@/components/chatbot";
 
-
 export default function SimpleChatbot() {
   const [sessionId, setSessionId] = useState<string | null>(null);
-  const { data: chatSessions, isLoading: chatSessionsLoading } = useSimpleChatSessions();
-  const { data: chatHistories, isLoading: chatHistoriesLoading } = useChatHistories(sessionId ?? "");
-  const { mutate: postSimpleChatSession } = usePostSimpleChatSession();
+  const { data: chatSessions, isLoading: chatSessionsLoading } =
+    useSimpleChatSessions();
+  const { data: chatHistories, isLoading: chatHistoriesLoading } =
+    useChatHistories(sessionId ?? "");
+  const {
+    mutate: postSimpleChatSession,
+    isPending: postSimpleChatSessionLoading,
+  } = usePostSimpleChatSession();
 
   if (chatSessionsLoading || chatHistoriesLoading) return <div>Loading...</div>;
 
@@ -29,8 +33,20 @@ export default function SimpleChatbot() {
 
   return (
     <>
-      {sessionId ? <Chatbot histories={histories} sessionId={sessionId} path="/api/chats" /> : renderFallbackMessage()}
-      <SessionDrawer sessions={sessions} postChatSession={postSimpleChatSession} />
+      {sessionId ? (
+        <Chatbot
+          histories={histories}
+          sessionId={sessionId}
+          path="/api/chats"
+        />
+      ) : (
+        renderFallbackMessage()
+      )}
+      <SessionDrawer
+        sessions={sessions}
+        postChatSession={postSimpleChatSession}
+        postChatSessionLoading={postSimpleChatSessionLoading}
+      />
     </>
   );
 }

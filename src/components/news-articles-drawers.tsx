@@ -26,9 +26,9 @@ export default function NewsArticlesDrawers({
   const { newsArticlesDrawerOpen, setNewsArticlesDrawerOpen } =
     useContext(ChatSessionContext);
 
-  const { mutate: crawlLatestNews } = useCrawlLatestNews();
+  const { mutate: crawlLatestNews, isPending } = useCrawlLatestNews();
 
-  // TODO: handle create session loading state
+  console.log(isPending);
 
   return (
     <Dialog
@@ -70,6 +70,7 @@ export default function NewsArticlesDrawers({
                   <DividerWithButton
                     onClick={() => crawlLatestNews()}
                     buttonText="Crawl latest news (Limited feature)"
+                    loading={isPending}
                   />
                 </div>
               </div>
