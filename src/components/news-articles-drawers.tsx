@@ -5,6 +5,8 @@ import { Dialog, DialogPanel, DialogTitle } from "@headlessui/react";
 import { XMarkIcon } from "@heroicons/react/24/outline";
 import ChatSessionContext from "@/store/ChatSessionProvider";
 import Divider from "@/components/divider";
+import DividerWithButton from "@/components/divider-with-button";
+import { useCrawlLatestNews } from "@/app/nodejs-backend/news-articles/mutations/useCrawlLatestNews";
 
 type NewsArticle = {
   id: string;
@@ -23,6 +25,8 @@ export default function NewsArticlesDrawers({
 }) {
   const { newsArticlesDrawerOpen, setNewsArticlesDrawerOpen } =
     useContext(ChatSessionContext);
+
+  const { mutate: crawlLatestNews } = useCrawlLatestNews();
 
   // TODO: handle create session loading state
 
@@ -63,6 +67,10 @@ export default function NewsArticlesDrawers({
                 <div className="relative mt-6 flex-1 px-4 sm:px-6">
                   <Divider />
                   <NewsArticlesDrawerContent newsArticles={newsArticles} />
+                  <DividerWithButton
+                    onClick={() => crawlLatestNews()}
+                    buttonText="Crawl latest news (Limited feature)"
+                  />
                 </div>
               </div>
             </DialogPanel>
