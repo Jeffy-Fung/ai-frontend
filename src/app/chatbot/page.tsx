@@ -57,6 +57,6 @@ export default function SimpleChatbot() {
 
 const renderFallbackMessage = () => (
   <div className="flex justify-center items-center h-full">
-    <div className="text-2xl font-bold">Select a session to start chatting</div>
+    <div className="text-2xl font-bold">Choose or create a session on the left panel to start chatting</div>
   </div>
 );
