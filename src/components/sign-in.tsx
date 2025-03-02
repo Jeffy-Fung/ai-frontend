@@ -17,7 +17,7 @@ export default function SignIn() {
           <div className="mx-auto w-full max-w-sm lg:w-96">
             <div>
               <h2 className="mt-8 text-2xl/9 font-bold tracking-tight text-gray-900">
-                Sign in to your account
+                Sign in to your account (Google Login Only)
               </h2>
               <p className="mt-2 text-sm/6 text-gray-500">
                 Not a member?{" "}
@@ -129,7 +129,7 @@ export default function SignIn() {
                       disabled
                       className="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm/6 font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
                     >
-                      Sign in (Coming soon, use Google login for now)
+                      Sign in (Coming soon)
                     </button>
                   </div>
                 </form>
