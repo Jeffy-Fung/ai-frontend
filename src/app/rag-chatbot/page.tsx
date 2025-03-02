@@ -83,6 +83,7 @@ export default function RagChatbot() {
 const renderFallbackMessage = () => (
   <div className="flex justify-center items-center h-full">
     <div className="text-2xl font-bold">1. Choose or create a session from the left panel</div>
+    <br />
     <div className="text-2xl font-bold">2. Select news articles from the left panel you wish to talk about</div>
   </div>
 );
