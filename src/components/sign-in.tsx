@@ -38,13 +38,14 @@ export default function SignIn() {
                       htmlFor="email"
                       className="block text-sm/6 font-medium text-gray-900"
                     >
-                      Email address
+                      Email address (Coming soon)
                     </label>
                     <div className="mt-2">
                       <input
                         id="email"
                         name="email"
                         type="email"
+                        disabled
                         required
                         autoComplete="email"
                         className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"
@@ -63,6 +64,7 @@ export default function SignIn() {
                       <input
                         id="password"
                         name="password"
+                        disabled
                         type="password"
                         required
                         autoComplete="current-password"
@@ -124,9 +126,10 @@ export default function SignIn() {
                   <div>
                     <button
                       type="submit"
+                      disabled
                       className="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm/6 font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
                     >
-                      Sign in
+                      Sign in (Coming soon, use Google login for now)
                     </button>
                   </div>
                 </form>
